@@ -2,15 +2,11 @@
 
 #include <iostream>
 
-namespace wle {
+class Application
+{
+public:
+	Application() = default;
+	~Application() = default;
 
-	class Application
-	{
-	public:
-		void run()
-		{
-			std::cout << "Application started" << std::endl;
-		}
-	};
-
-}
+	void Run();
+};

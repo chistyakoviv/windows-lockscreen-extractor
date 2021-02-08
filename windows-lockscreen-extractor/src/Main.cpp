@@ -3,7 +3,7 @@
 
 int main()
 {
-	wle::Application* app = new wle::Application();
+	Application* app = new Application();
 
-	app->run();
+	app->Run();
 }
