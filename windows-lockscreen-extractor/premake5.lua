@@ -21,13 +21,15 @@ project "windows-lockscreen-extractor"
 	includedirs
 	{
 		"src",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glfw}",
 	}
 
 	links
 	{
 		"opengl32.lib",
-		"Glad"
+		"Glad",
+		"glfw"
 	}
 
 	filter "system:windows"

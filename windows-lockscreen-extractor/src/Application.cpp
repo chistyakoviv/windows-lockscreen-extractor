@@ -1,7 +1,10 @@
 #include "Application.h"
-#include <glad/glad.h>
+#include "Window.h"
+
+#include <iostream>
 
 void Application::Run()
 {
+	Window window(1024, 767);
 	std::cout << "Application started" << std::endl;
 }
