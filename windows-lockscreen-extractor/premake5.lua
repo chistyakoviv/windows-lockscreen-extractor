@@ -3,6 +3,7 @@ project "windows-lockscreen-extractor"
 	language "C++"
 	cppdialect "c++17"
 	staticruntime "on"
+    platforms { "Windows" }
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -31,13 +32,6 @@ project "windows-lockscreen-extractor"
 		"Glad",
 		"glfw"
 	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-		}
 
 	filter "configurations:Debug"
 		defines "WLE_DEBUG"
