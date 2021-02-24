@@ -23,14 +23,14 @@ project "windows-lockscreen-extractor"
 	{
 		"src",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.glfw}",
+		"%{IncludeDir.GLFW}",
 	}
 
 	links
 	{
 		"opengl32.lib",
 		"Glad",
-		"glfw"
+		"GLFW"
 	}
 
 	filter "configurations:Debug"
