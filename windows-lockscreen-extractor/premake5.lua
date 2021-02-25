@@ -3,7 +3,7 @@ project "windows-lockscreen-extractor"
 	language "C++"
 	cppdialect "c++17"
 	staticruntime "on"
-    platforms { "Windows" }
+    -- platforms { "Windows" }
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -24,13 +24,15 @@ project "windows-lockscreen-extractor"
 		"src",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links
 	{
 		"opengl32.lib",
 		"Glad",
-		"GLFW"
+		"GLFW",
+		"ImGui"
 	}
 
 	filter "configurations:Debug"

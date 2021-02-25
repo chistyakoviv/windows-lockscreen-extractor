@@ -18,12 +18,14 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["Glad"] = "%{wks.location}/windows-lockscreen-extractor/vendor/Glad/include"
-IncludeDir["glfw"] = "%{wks.location}/windows-lockscreen-extractor/vendor/glfw/include"
+IncludeDir["GLFW"] = "%{wks.location}/windows-lockscreen-extractor/vendor/GLFW/include"
+IncludeDir["ImGui"] = "%{wks.location}/windows-lockscreen-extractor/vendor/ImGui"
 
 group "Dependencies"
 	include "vendor/premake"
 	include "windows-lockscreen-extractor/vendor/Glad"
-	include "windows-lockscreen-extractor/vendor/glfw"
+	include "windows-lockscreen-extractor/vendor/GLFW"
+	include "windows-lockscreen-extractor/vendor/ImGui"
 group ""
 
 include "windows-lockscreen-extractor"

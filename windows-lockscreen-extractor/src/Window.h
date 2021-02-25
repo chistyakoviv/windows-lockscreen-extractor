@@ -13,6 +13,6 @@ public:
 private:
 	void Init();
 private:
-	uint32_t m_Width;
-	uint32_t m_Height;
+	uint16_t m_Width;
+	uint16_t m_Height;
 };
