@@ -1,10 +1,14 @@
 #include "Application.h"
-#include "Window.h"
 
 #include <iostream>
 
 void Application::Run()
 {
-	Window window(1024, 767);
+	m_Window = new Window(1024, 767);
 	std::cout << "Application started" << std::endl;
+}
+
+Application::~Application()
+{
+	delete m_Window;
 }
