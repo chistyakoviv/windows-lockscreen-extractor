@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "ImGui/Panel.h"
+
 #include <cstdint>
 #include <vector>
 
@@ -14,14 +16,12 @@ public:
 	{
 		Init();
 	}
-
-	static void ImGuiBegin();
-	static void ImGuiEnd(GLFWwindow* window);
-	static void ImGuiDock();
+	~Window();
 private:
 	void Init();
 private:
 	uint16_t m_Width;
 	uint16_t m_Height;
 	GLFWwindow* m_Window;
+	std::vector<Panel*> m_Panels;
 };
