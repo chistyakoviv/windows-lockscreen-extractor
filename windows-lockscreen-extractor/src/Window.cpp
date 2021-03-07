@@ -1,6 +1,8 @@
 #include "Window.h"
 
 #include "ImGui/FilesPanel.h"
+#include "FileSystem.h"
+#include "User.h"
 
 #include <stdlib.h>
 #include <stddef.h>
@@ -62,7 +64,11 @@ void Window::Init()
 
 	Panel::Init(m_Window);
 
-	m_Panels.push_back(new FilesPanel());
+	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
+
+	FilesPanel* filesPanel = new FilesPanel();
+	filesPanel->setFiles(files);
+	m_Panels.push_back(filesPanel);
 
 	// Main loop
 	while (!glfwWindowShouldClose(m_Window))
@@ -84,7 +90,7 @@ void Window::Init()
 		}
 
 		// Demo window for testing features
-		// ImGui::ShowDemoWindow();
+		 //ImGui::ShowDemoWindow();
 
 		Panel::End();
 

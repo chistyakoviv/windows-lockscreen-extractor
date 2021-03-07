@@ -5,7 +5,8 @@
 
 #include "ImGui/Panel.h"
 
-#include <cstdint>
+#include <stddef.h>
+#include <stdint.h>
 #include <vector>
 
 class Window
