@@ -8,11 +8,6 @@ project "ImGui"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	-- libdirs
-	-- {
-	--	"bin/" .. outputdir .. "/%{prj.name}"
-	-- }
-
 	files
 	{
 		"imconfig.h",
@@ -26,8 +21,6 @@ project "ImGui"
 		"imstb_truetype.h",
 		"imgui_demo.cpp",
         "imgui_tables.cpp",
-        "backends/imgui_impl_glfw.h",
-        "backends/imgui_impl_opengl3.h",
 	}
 
 	filter "configurations:Debug"
