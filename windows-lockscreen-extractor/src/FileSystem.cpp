@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <strsafe.h>
 
-std::vector<std::string > FileSystem::ReadDir(const std::string& dirpath)
+std::vector<std::string> FileSystem::ReadDir(const std::string& dirpath)
 {
 	std::vector<std::string > files;
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
