@@ -51,11 +51,7 @@ std::vector<std::string > FileSystem::ReadDir(const std::string& dirpath)
 
 	do
 	{
-		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{
-
-		}
-		else
+		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		{
 			std::string fileName = converter.to_bytes(ffd.cFileName);
 			files.push_back(fileName);
