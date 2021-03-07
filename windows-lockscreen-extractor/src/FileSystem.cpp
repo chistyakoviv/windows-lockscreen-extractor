@@ -8,17 +8,6 @@
 #include <tchar.h> 
 #include <stdio.h>
 #include <strsafe.h>
-#pragma comment(lib, "User32.lib")
-
-static std::string narrow(std::wstring const& text)
-{
-	std::locale const loc("");
-	wchar_t const* from = text.c_str();
-	std::size_t const len = text.size();
-	std::vector<char> buffer(len + 1);
-	std::use_facet<std::ctype<wchar_t> >(loc).narrow(from, from + len, '_', &buffer[0]);
-	return std::string(&buffer[0], &buffer[len]);
-}
 
 std::vector<std::string > FileSystem::ReadDir(const std::string& dirpath)
 {
