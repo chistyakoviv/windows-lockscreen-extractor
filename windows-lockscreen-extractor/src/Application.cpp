@@ -48,7 +48,7 @@ void Application::Run()
 		}
 
 		// Demo window for testing features
-		 ImGui::ShowDemoWindow();
+		 //ImGui::ShowDemoWindow();
 
 		Panel::End();
 
