@@ -11,12 +11,12 @@
 
 std::vector<std::string> FileSystem::ReadDir(const std::string& dirpath)
 {
-	std::vector<std::string > files;
+	std::vector<std::string> files;
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	WIN32_FIND_DATA ffd;
 	LARGE_INTEGER filesize;
 	TCHAR szDir[MAX_PATH];
-	size_t length_of_arg;
+	size_t lengthOfPath;
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	DWORD dwError = 0;
 
@@ -25,9 +25,9 @@ std::vector<std::string> FileSystem::ReadDir(const std::string& dirpath)
 	// Check that the input path plus 3 is not longer than MAX_PATH.
 	// Three characters are for the "\*" plus NULL appended below.
 
-	StringCchLength(converted_dirpath.c_str(), MAX_PATH, &length_of_arg);
+	StringCchLength(converted_dirpath.c_str(), MAX_PATH, &lengthOfPath);
 
-	if (length_of_arg > (MAX_PATH - 3))
+	if (lengthOfPath > (MAX_PATH - 3))
 	{
 		return {};
 	}
@@ -47,7 +47,7 @@ std::vector<std::string> FileSystem::ReadDir(const std::string& dirpath)
 		return {};
 	}
 
-	// List all the files in the directory with some info about them.
+	// Gather all the files in the directory.
 
 	do
 	{

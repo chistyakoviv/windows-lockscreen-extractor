@@ -1,9 +1,5 @@
 #include "Window.h"
 
-#include "ImGui/FilesPanel.h"
-#include "FileSystem.h"
-#include "User.h"
-
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -21,10 +17,19 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 
 Window::~Window()
 {
-	for (auto panel : m_Panels)
-	{
-		delete panel;
-	}
+	Shutdown();
+}
+
+void Window::OnUpdate()
+{
+	// Poll and handle events (inputs, window resize, etc.)
+	// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+	// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
+	// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
+	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+	glfwPollEvents();
+
+	glfwSwapBuffers(m_Window);
 }
 
 void Window::Init()
@@ -62,43 +67,20 @@ void Window::Init()
 
 	glfwSwapInterval(1); // Enable vsync
 
-	Panel::Init(m_Window);
+	// Handle Window callbacks
+	glfwSetWindowUserPointer(m_Window, this);
 
-	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
-
-	FilesPanel* filesPanel = new FilesPanel();
-	filesPanel->setFiles(files);
-	m_Panels.push_back(filesPanel);
-
-	// Main loop
-	while (!glfwWindowShouldClose(m_Window))
+	glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 	{
-		// Poll and handle events (inputs, window resize, etc.)
-		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
-		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
-		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
-		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-		glfwPollEvents();
+		Window& AppWindow = *(Window*)glfwGetWindowUserPointer(window);
+		AppWindow.Callback();
+	});
+}
 
-		Panel::Begin();
-		Panel::Dockspace();
-
-		// ImGui panels
-		for (auto panel : m_Panels)
-		{
-			panel->render();
-		}
-
-		// Demo window for testing features
-		 //ImGui::ShowDemoWindow();
-
-		Panel::End();
-
-		glfwSwapBuffers(m_Window);
-	}
-
-	Panel::Shutdown();
-
+void Window::Shutdown()
+{
 	glfwDestroyWindow(m_Window);
 	glfwTerminate();
 }
+
+
