@@ -13,7 +13,7 @@ public:
 
 	void setFiles(const std::vector<std::string>& items) { m_Files = items; }
 
-	virtual void render();
+	virtual void render() override;
 private:
 	std::vector<std::string> m_Files;
 	int32_t m_SelectedFile = -1;

@@ -16,8 +16,8 @@ public:
 	virtual void render() = 0;
 
 	static void Init(GLFWwindow* window);
-	static void End();
-	static void Dockspace();
 	static void Begin();
+	static void Dockspace();
+	static void End();
 	static void Shutdown();
 };

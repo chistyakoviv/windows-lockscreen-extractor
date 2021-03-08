@@ -1,6 +1,5 @@
 #include "Application.h"
 
-#include "ImGui/FilesPanel.h"
 #include "FileSystem.h"
 #include "User.h"
 
@@ -16,9 +15,13 @@ Application::Application()
 
 	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
 
-	FilesPanel* filesPanel = new FilesPanel();
-	filesPanel->setFiles(files);
-	m_Panels.push_back(filesPanel);
+	m_FilesPanel = new FilesPanel();
+	m_FilesPanel->setFiles(files);
+
+	m_ViewportPanel = new ViewportPanel();
+
+	m_Panels.push_back(m_FilesPanel);
+	m_Panels.push_back(m_ViewportPanel);
 }
 
 Application::~Application()
@@ -45,7 +48,7 @@ void Application::Run()
 		}
 
 		// Demo window for testing features
-		 //ImGui::ShowDemoWindow();
+		 ImGui::ShowDemoWindow();
 
 		Panel::End();
 
