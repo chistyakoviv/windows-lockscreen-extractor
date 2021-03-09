@@ -56,8 +56,6 @@ void Panel::Begin()
 void Panel::Dockspace()
 {
 	// ImGui DockSpace
-	// See examples in imgui_demo.cpp
-	// See episode 70 for adding textures
 	static bool opt_fullscreen = true;
 	static bool opt_padding = false;
 	static bool p_open = true;

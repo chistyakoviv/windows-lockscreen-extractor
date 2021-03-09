@@ -20,6 +20,7 @@ IncludeDir = {}
 IncludeDir["Glad"] = "%{wks.location}/windows-lockscreen-extractor/vendor/Glad/include"
 IncludeDir["GLFW"] = "%{wks.location}/windows-lockscreen-extractor/vendor/GLFW/include"
 IncludeDir["ImGui"] = "%{wks.location}/windows-lockscreen-extractor/vendor/ImGui"
+IncludeDir["stb_image"] = "%{wks.location}/windows-lockscreen-extractor/vendor/stb_image"
 
 group "Dependencies"
 	include "vendor/premake"

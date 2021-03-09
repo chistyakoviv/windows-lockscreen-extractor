@@ -24,6 +24,7 @@ project "windows-lockscreen-extractor"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.stb_image}",
 	}
 
 	links
