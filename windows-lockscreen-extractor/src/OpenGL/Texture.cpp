@@ -35,7 +35,7 @@ Texture::Texture(const std::string& path)
 			break;
 	}
 
-	if (internalFormat & dataFormat)
+	if (!(internalFormat & dataFormat))
 	{
 		std::cout << "format not supported" << std::endl;
 		return;
