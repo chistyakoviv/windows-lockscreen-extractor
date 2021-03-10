@@ -18,14 +18,18 @@ Application::Application()
 	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
 
 	m_FilesPanel = new FilesPanel();
-	m_FilesPanel->setFiles(files);
+	m_FilesPanel->SetFiles(files);
 
 	m_ViewportPanel = new ViewportPanel();
 
 	m_Panels.push_back(m_FilesPanel);
 	m_Panels.push_back(m_ViewportPanel);
-
+	
 	Renderer::Init();
+
+	m_CurrentImage = new Texture("assets/test.png");
+
+	m_ViewportPanel->SetTextureID(m_CurrentImage->GetTextureID());
 
 	std::string vertex = R"(
 		#version 450 core
@@ -57,6 +61,7 @@ Application::~Application()
 		delete panel;
 	}
 	Panel::Shutdown();
+	delete m_CurrentImage;
 	delete m_Window;
 }
 

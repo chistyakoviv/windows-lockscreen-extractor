@@ -1,6 +1,5 @@
 #include "Texture.h"
 
-#include <glad/glad.h>
 #include <iostream>
 
 Texture::Texture(const std::string& path)
@@ -18,6 +17,32 @@ Texture::Texture(const std::string& path)
 		return;
 	}
 
+	CreateTexture(data, width, height, channels);
+	stbi_image_free(data);
+}
+
+Texture::Texture(stbi_uc* data, int width, int height, int channels)
+{
+	CreateTexture(data, width, height, channels);
+}
+
+Texture::~Texture()
+{
+	glDeleteTextures(1, &m_TextureID);
+}
+
+void Texture::Bind(uint32_t slot) const
+{
+	glBindTextureUnit(slot, m_TextureID);
+}
+
+uint32_t Texture::GetTextureID() const
+{
+	return m_TextureID;
+}
+
+bool Texture::CreateTexture(stbi_uc* data, int width, int height, int channels)
+{
 	m_Width = width;
 	m_Height = height;
 
@@ -25,20 +50,20 @@ Texture::Texture(const std::string& path)
 
 	switch (channels)
 	{
-		case 4:
-			internalFormat = GL_RGBA8;
-			dataFormat = GL_RGBA;
-			break;
-		case 3:
-			internalFormat = GL_RGB8;
-			dataFormat = GL_RGB;
-			break;
+	case 4:
+		internalFormat = GL_RGBA8;
+		dataFormat = GL_RGBA;
+		break;
+	case 3:
+		internalFormat = GL_RGB8;
+		dataFormat = GL_RGB;
+		break;
 	}
 
 	if (!(internalFormat & dataFormat))
 	{
 		std::cout << "format not supported" << std::endl;
-		return;
+		return false;
 	}
 
 	m_InternalFormat = internalFormat;
@@ -55,20 +80,5 @@ Texture::Texture(const std::string& path)
 
 	glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
-	stbi_image_free(data);
-}
-
-Texture::~Texture()
-{
-	glDeleteTextures(1, &m_TextureID);
-}
-
-void Texture::Bind(uint32_t slot) const
-{
-	glBindTextureUnit(slot, m_TextureID);
-}
-
-uint32_t Texture::GetTextureID() const
-{
-	return m_TextureID;
+	return true;
 }

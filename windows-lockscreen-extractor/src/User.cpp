@@ -11,3 +11,8 @@ std::string User::GetLockScreenImagesDir()
 {
 	return User::GetProfileDir() + LOCK_SCREEN_IMAGES_PATH;
 }
+
+std::string User::GetLockScreenImageAbsolutePath(const std::string& imageName)
+{
+	return User::GetLockScreenImagesDir() + "\\" + imageName;
+}

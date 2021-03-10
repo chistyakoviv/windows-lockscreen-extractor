@@ -5,6 +5,7 @@
 #include "ImGui/Panel.h"
 #include "ImGui/FilesPanel.h"
 #include "ImGui/ViewportPanel.h"
+#include "OpenGL/Texture.h"
 
 class Application
 {
@@ -21,6 +22,7 @@ public:
 	void Exit();
 private:
 	std::vector<Panel*> m_Panels;
+	Texture* m_CurrentImage;
 	FilesPanel* m_FilesPanel;
 	ViewportPanel* m_ViewportPanel;
 	Window* m_Window;

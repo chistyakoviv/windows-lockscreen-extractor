@@ -9,6 +9,8 @@ public:
 	~ViewportPanel() = default;
 
 	virtual void render() override;
+
+	void SetTextureID(uint32_t textureID);
 private:
 
 	struct VieportSize
@@ -18,4 +20,5 @@ private:
 	};
 
 	VieportSize m_ViewportSize;
+	uint32_t m_TextureID = 0;
 };
