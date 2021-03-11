@@ -7,11 +7,12 @@
 
 #include <iostream>
 
+#define BIND_FUNCTION(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...); }
+
 Application::Application()
 {
 	m_Window = new Window(1024, 768);
-
-	m_Window->SetCallback([this](auto&&... args) -> decltype(auto) { return this->OnEvent(std::forward<decltype(args)>(args)...); });
+	m_Window->SetCallback(BIND_FUNCTION(Application::OnEvent));
 
 	Panel::Init(m_Window->GetNativeWindow());
 
@@ -19,7 +20,7 @@ Application::Application()
 
 	m_FilesPanel = new FilesPanel();
 	m_FilesPanel->SetFiles(files);
-	m_FilesPanel->SetCallback([this](auto&&... args) -> decltype(auto) { return this->OnEvent(std::forward<decltype(args)>(args)...); });
+	m_FilesPanel->SetCallback(BIND_FUNCTION(Application::OnEvent));
 
 	m_ViewportPanel = new ViewportPanel();
 

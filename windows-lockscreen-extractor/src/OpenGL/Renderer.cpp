@@ -19,7 +19,7 @@ static void OpenGLMessageCallback(
 
 void Renderer::Init()
 {
-// Add a debug define to turn off debugging functionality for a dist build
+// Add the debug define to turn off debugging functionality for the dist build
 #if 1
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
