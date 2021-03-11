@@ -73,7 +73,7 @@ void Window::Init()
 	glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 	{
 		Window& AppWindow = *(Window*)glfwGetWindowUserPointer(window);
-		AppWindow.Callback();
+		AppWindow.Callback(1); // TODO: add event class
 	});
 }
 

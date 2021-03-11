@@ -18,11 +18,10 @@ public:
 	Window* GetWindow() const { return m_Window; }
 	bool IsRunning() const { return m_Running; }
 
-	void OnEvent();
+	void OnEvent(int type);
 	void Exit();
 private:
 	std::vector<Panel*> m_Panels;
-	Texture* m_CurrentImage;
 	FilesPanel* m_FilesPanel;
 	ViewportPanel* m_ViewportPanel;
 	Window* m_Window;

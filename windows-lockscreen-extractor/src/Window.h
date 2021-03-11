@@ -11,7 +11,7 @@
 class Window
 {
 public:
-	using CallbackType = std::function<void()>;
+	using CallbackType = std::function<void(int type)>;
 
 	Window(uint16_t width, uint16_t height)
 		: m_Width(width), m_Height(height)

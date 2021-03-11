@@ -19,6 +19,7 @@ Application::Application()
 
 	m_FilesPanel = new FilesPanel();
 	m_FilesPanel->SetFiles(files);
+	m_FilesPanel->SetCallback([this](auto&&... args) -> decltype(auto) { return this->OnEvent(std::forward<decltype(args)>(args)...); });
 
 	m_ViewportPanel = new ViewportPanel();
 
@@ -26,10 +27,6 @@ Application::Application()
 	m_Panels.push_back(m_ViewportPanel);
 	
 	Renderer::Init();
-
-	m_CurrentImage = new Texture("assets/test.png");
-
-	m_ViewportPanel->SetTextureID(m_CurrentImage->GetTextureID());
 
 	std::string vertex = R"(
 		#version 450 core
@@ -61,7 +58,6 @@ Application::~Application()
 		delete panel;
 	}
 	Panel::Shutdown();
-	delete m_CurrentImage;
 	delete m_Window;
 }
 
@@ -87,9 +83,17 @@ void Application::Run()
 	}
 }
 
-void Application::OnEvent()
+void Application::OnEvent(int type)
 {
-	Exit();
+	switch (type)
+	{
+		case 1:
+			Exit();
+			break;
+		case 2:
+			m_ViewportPanel->SetTextureID(m_FilesPanel->GetCurrentTextureID());
+			break;
+	}
 }
 
 void Application::Exit()
