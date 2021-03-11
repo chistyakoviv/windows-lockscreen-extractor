@@ -26,7 +26,7 @@ public:
 
 	GLFWwindow* GetNativeWindow() const { return m_Window; }
 
-	void SetCallback(const CallbackType& callback) { Callback = callback; }
+	void SetCallback(const CallbackType& callback) { m_Callback = callback; }
 private:
 	void Init();
 	void Shutdown();
@@ -34,5 +34,5 @@ private:
 	uint16_t m_Width;
 	uint16_t m_Height;
 	GLFWwindow* m_Window;
-	CallbackType Callback;
+	CallbackType m_Callback;
 };

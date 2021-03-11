@@ -7,16 +7,17 @@
 class Texture
 {
 public:
-	Texture() = default;
+	Texture();
 	Texture(const std::string& path);
-	Texture(stbi_uc* data, int width, int height, int channels);
 	~Texture();
 
 	void Bind(uint32_t slot) const;
 	uint32_t GetTextureID() const;
+	uint32_t GetWidth() const;
+	uint32_t GetHeight() const;
+	bool IsValid() const;
 private:
-	bool CreateTexture(stbi_uc* data, int width, int height, int channels);
-private:
+	bool m_IsValid;
 	uint32_t m_Width;
 	uint32_t m_Height;
 	uint32_t m_TextureID;

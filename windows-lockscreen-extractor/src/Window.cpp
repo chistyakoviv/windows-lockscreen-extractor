@@ -73,7 +73,7 @@ void Window::Init()
 	glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 	{
 		Window& AppWindow = *(Window*)glfwGetWindowUserPointer(window);
-		AppWindow.Callback(Event(EventType::WindowClose));
+		AppWindow.m_Callback(Event(EventType::WindowClose));
 	});
 }
 
@@ -82,5 +82,3 @@ void Window::Shutdown()
 	glfwDestroyWindow(m_Window);
 	glfwTerminate();
 }
-
-

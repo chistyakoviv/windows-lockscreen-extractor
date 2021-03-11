@@ -2,7 +2,12 @@
 
 #include <iostream>
 
+Texture::Texture()
+	: m_IsValid(false), m_Width(0), m_Height(0)
+{}
+
 Texture::Texture(const std::string& path)
+	: m_IsValid(false), m_Width(0), m_Height(0)
 {
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(1);
@@ -17,32 +22,6 @@ Texture::Texture(const std::string& path)
 		return;
 	}
 
-	CreateTexture(data, width, height, channels);
-	stbi_image_free(data);
-}
-
-Texture::Texture(stbi_uc* data, int width, int height, int channels)
-{
-	CreateTexture(data, width, height, channels);
-}
-
-Texture::~Texture()
-{
-	glDeleteTextures(1, &m_TextureID);
-}
-
-void Texture::Bind(uint32_t slot) const
-{
-	glBindTextureUnit(slot, m_TextureID);
-}
-
-uint32_t Texture::GetTextureID() const
-{
-	return m_TextureID;
-}
-
-bool Texture::CreateTexture(stbi_uc* data, int width, int height, int channels)
-{
 	m_Width = width;
 	m_Height = height;
 
@@ -63,7 +42,7 @@ bool Texture::CreateTexture(stbi_uc* data, int width, int height, int channels)
 	if (!(internalFormat & dataFormat))
 	{
 		std::cout << "format not supported" << std::endl;
-		return false;
+		return;
 	}
 
 	m_InternalFormat = internalFormat;
@@ -80,5 +59,37 @@ bool Texture::CreateTexture(stbi_uc* data, int width, int height, int channels)
 
 	glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
-	return true;
+	stbi_image_free(data);
+
+	m_IsValid = true;
+}
+
+Texture::~Texture()
+{
+	glDeleteTextures(1, &m_TextureID);
+}
+
+void Texture::Bind(uint32_t slot) const
+{
+	glBindTextureUnit(slot, m_TextureID);
+}
+
+uint32_t Texture::GetTextureID() const
+{
+	return m_TextureID;
+}
+
+uint32_t Texture::GetWidth() const
+{
+	return m_Width;
+}
+
+uint32_t Texture::GetHeight() const
+{
+	return m_Height;
+}
+
+bool Texture::IsValid() const
+{
+	return m_IsValid;
 }

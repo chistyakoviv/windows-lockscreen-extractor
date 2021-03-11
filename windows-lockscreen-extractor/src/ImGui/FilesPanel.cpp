@@ -2,9 +2,15 @@
 
 #include "User.h"
 
-#include <stb_image.h>
 #include <iostream>
 
+FilesPanel::~FilesPanel()
+{
+	for (auto image : m_Images)
+	{
+		delete image.texture;
+	}
+}
 
 uint32_t FilesPanel::GetCurrentTextureID() const
 {
@@ -26,24 +32,24 @@ std::vector<Image> FilesPanel::FilterImages(const std::vector<std::string>& item
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(1);
 
+	size_t pictureCounter = 0;
 	for (size_t i = 0; i < items.size(); i++)
 	{
-		const std::string& item = items[i];
+		Texture* texture = new Texture(User::GetLockScreenImageAbsolutePath(items[i]));
 
-		stbi_uc* data = nullptr;
+		if (!texture->IsValid() || !IsBigTexture(texture))
 		{
-			data = stbi_load(User::GetLockScreenImageAbsolutePath(item).c_str(), &width, &height, &channels, 0);
+			delete texture;
+			continue;
 		}
 
-		if (!data) continue;
-
 		Image image;
-		image.origName = item;
-		image.name = "Picture " + std::to_string(i);
-		image.texture = new Texture(data, width, height, channels);
+		image.origName = items[i];
+		image.name = "Picture " + std::to_string(pictureCounter);
+		image.texture = texture;
 
 		images.push_back(image);
-		stbi_image_free(data);
+		pictureCounter++;
 	}
 
 	return images;
@@ -61,7 +67,7 @@ void FilesPanel::render()
 			m_SelectedImage = i;
 
 			if (prev != i)
-				Callback(Event(EventType::ChooseFile));
+				m_Callback(Event(EventType::ChooseFile));
 		}
 	}
 
