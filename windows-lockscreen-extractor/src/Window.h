@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Events/Event.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -11,7 +13,7 @@
 class Window
 {
 public:
-	using CallbackType = std::function<void(int type)>;
+	using CallbackType = std::function<void(Event event)>;
 
 	Window(uint16_t width, uint16_t height)
 		: m_Width(width), m_Height(height)

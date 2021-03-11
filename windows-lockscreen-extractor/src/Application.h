@@ -6,6 +6,7 @@
 #include "ImGui/FilesPanel.h"
 #include "ImGui/ViewportPanel.h"
 #include "OpenGL/Texture.h"
+#include "Events/Event.h"
 
 class Application
 {
@@ -18,7 +19,7 @@ public:
 	Window* GetWindow() const { return m_Window; }
 	bool IsRunning() const { return m_Running; }
 
-	void OnEvent(int type);
+	void OnEvent(Event event);
 	void Exit();
 private:
 	std::vector<Panel*> m_Panels;

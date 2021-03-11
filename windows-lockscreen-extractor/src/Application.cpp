@@ -84,14 +84,14 @@ void Application::Run()
 	}
 }
 
-void Application::OnEvent(int type)
+void Application::OnEvent(Event event)
 {
-	switch (type)
+	switch (event.GetType())
 	{
-		case 1:
+		case EventType::WindowClose:
 			Exit();
 			break;
-		case 2:
+		case EventType::ChooseFile:
 			m_ViewportPanel->SetTextureID(m_FilesPanel->GetCurrentTextureID());
 			break;
 	}

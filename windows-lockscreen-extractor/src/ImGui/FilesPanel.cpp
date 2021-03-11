@@ -61,7 +61,7 @@ void FilesPanel::render()
 			m_SelectedImage = i;
 
 			if (prev != i)
-				Callback(2); // TODO: add event class
+				Callback(Event(EventType::ChooseFile));
 		}
 	}
 

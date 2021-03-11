@@ -3,6 +3,7 @@
 #include "Panel.h"
 
 #include "OpenGL/Texture.h"
+#include "Events/Event.h"
 
 #include <vector>
 #include <string>
@@ -18,7 +19,7 @@ struct Image
 class FilesPanel : public Panel
 {
 public:
-	using CallbackType = std::function<void(int type)>;
+	using CallbackType = std::function<void(Event event)>;
 
 	FilesPanel() = default;
 	~FilesPanel() = default;
