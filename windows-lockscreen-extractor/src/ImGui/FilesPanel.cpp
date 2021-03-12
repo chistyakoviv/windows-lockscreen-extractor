@@ -20,6 +20,14 @@ uint32_t FilesPanel::GetCurrentTextureID() const
 	return m_Images[m_SelectedImage].texture->GetTextureID();
 }
 
+const Image* FilesPanel::GetCurrentImage() const
+{
+	if (m_SelectedImage == -1)
+		return nullptr;
+
+	return &m_Images[m_SelectedImage];
+}
+
 void FilesPanel::SetFiles(const std::vector<std::string>& items)
 {
 	m_Images = FilterImages(items);

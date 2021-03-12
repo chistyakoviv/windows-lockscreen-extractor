@@ -1,7 +1,18 @@
 #include "Panel.h"
 
+#include "helpers/FileDialog.h"
+#include "Events/Event.h"
+
+#include <optional>
+#include <string>
+#include <iostream>
+
+static GLFWwindow* s_Window = nullptr;
+static Panel::CallbackType s_Callback;
+
 void Panel::Init(GLFWwindow* window)
 {
+	s_Window = window;
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -105,10 +116,12 @@ void Panel::Dockspace()
 
 	if (ImGui::BeginMenuBar())
 	{
-		if (ImGui::BeginMenu("Options"))
+		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Close", NULL, false, p_open != NULL))
-				p_open = false;
+			if (ImGui::MenuItem("Save"))
+			{
+				Panel::OnSave();
+			}
 			ImGui::EndMenu();
 		}
 
@@ -150,4 +163,17 @@ void Panel::Shutdown()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+}
+
+void Panel::SetStaticCallback(const Panel::CallbackType& callback)
+{
+	s_Callback = callback;
+}
+
+void Panel::OnSave()
+{
+	std::optional<std::string> filepath = FileDialogs::SaveFile(s_Window, ".png (*.png)\0*.png\0");
+
+	if (filepath)
+		s_Callback(Event(EventType::SaveFile, (void*)&*filepath));
 }

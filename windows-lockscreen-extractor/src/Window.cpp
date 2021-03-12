@@ -4,17 +4,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-static void error_callback(int error, const char* description)
-{
-	fprintf(stderr, "Error: %s\n", description);
-}
-
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
-
 Window::~Window()
 {
 	Shutdown();
@@ -41,7 +30,7 @@ void Window::Init()
 	}
 
 	// Create window with graphics context
-	m_Window = glfwCreateWindow(m_Width, m_Height, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+	m_Window = glfwCreateWindow(m_Width, m_Height, "Windows 10 Lock Screen Extractor", NULL, NULL);
 	if (m_Window == NULL)
 	{
 		fprintf(stderr, "Failed to create GLFWwindow!\n");
@@ -72,8 +61,8 @@ void Window::Init()
 
 	glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 	{
-		Window& AppWindow = *(Window*)glfwGetWindowUserPointer(window);
-		AppWindow.m_Callback(Event(EventType::WindowClose));
+		Window& appWindow = *(Window*)glfwGetWindowUserPointer(window);
+		appWindow.m_Callback(Event(EventType::WindowClose));
 	});
 }
 

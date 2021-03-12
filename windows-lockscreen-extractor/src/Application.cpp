@@ -5,6 +5,9 @@
 #include "OpenGL/Renderer.h"
 #include "OpenGL/Shader.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+
 #include <iostream>
 
 #define BIND_FUNCTION(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...); }
@@ -15,6 +18,7 @@ Application::Application()
 	m_Window->SetCallback(BIND_FUNCTION(Application::OnEvent));
 
 	Panel::Init(m_Window->GetNativeWindow());
+	Panel::SetStaticCallback(BIND_FUNCTION(Application::OnEvent));
 
 	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
 
@@ -93,6 +97,18 @@ void Application::OnEvent(Event event)
 			break;
 		case EventType::ChooseFile:
 			m_ViewportPanel->SetTextureID(m_FilesPanel->GetCurrentTextureID());
+			break;
+		case EventType::SaveFile:
+			std::string* filepath = (std::string*)event.GetData();
+			const Image* img = m_FilesPanel->GetCurrentImage();
+
+			int width, height, channels;
+			stbi_uc* data = nullptr;
+			{
+				data = stbi_load(User::GetLockScreenImageAbsolutePath(img->origName).c_str(), &width, &height, &channels, 0);
+			}
+			stbi_flip_vertically_on_write(1);
+			stbi_write_png(filepath->c_str(), width, height, channels, data, width * channels);
 			break;
 	}
 }
