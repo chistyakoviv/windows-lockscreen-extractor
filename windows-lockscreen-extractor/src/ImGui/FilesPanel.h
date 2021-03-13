@@ -18,15 +18,10 @@ struct Image
 	Texture* texture = nullptr;
 };
 
-static bool IsBigTexture(Texture* texture)
-{
-	return texture->GetWidth() >= TEXTURE_MIN_WIDTH && texture->GetHeight() >= TEXTURE_MIN_HEIGHT;
-}
-
 class FilesPanel : public Panel
 {
 public:
-	FilesPanel() = default;
+	FilesPanel();
 	~FilesPanel();
 
 	uint32_t GetCurrentTextureID() const;
@@ -34,9 +29,12 @@ public:
 	void SetFiles(const std::vector<std::string>& items);
 
 	virtual void render() override;
+
+	static uint32_t NO_CURRENT_TEXTURE;
+	static int32_t NO_CURRENT_TEXTURE_ID;
 private:
 	std::vector<Image> FilterImages(const std::vector<std::string>& items);
 private:
 	std::vector<Image> m_Images;
-	int32_t m_SelectedImage = -1;
+	int32_t m_SelectedImage;
 };

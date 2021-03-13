@@ -4,6 +4,18 @@
 
 #include <iostream>
 
+static bool IsBigTexture(Texture* texture)
+{
+	return texture->GetWidth() >= TEXTURE_MIN_WIDTH && texture->GetHeight() >= TEXTURE_MIN_HEIGHT;
+}
+
+uint32_t FilesPanel::NO_CURRENT_TEXTURE = -1;
+int32_t FilesPanel::NO_CURRENT_TEXTURE_ID = 0;
+
+FilesPanel::FilesPanel()
+	: m_SelectedImage(NO_CURRENT_TEXTURE)
+{}
+
 FilesPanel::~FilesPanel()
 {
 	for (auto image : m_Images)
@@ -14,15 +26,15 @@ FilesPanel::~FilesPanel()
 
 uint32_t FilesPanel::GetCurrentTextureID() const
 {
-	if (m_SelectedImage == -1)
-		return 0;
+	if (m_SelectedImage == NO_CURRENT_TEXTURE)
+		return NO_CURRENT_TEXTURE_ID;
 
 	return m_Images[m_SelectedImage].texture->GetTextureID();
 }
 
 const Image* FilesPanel::GetCurrentImage() const
 {
-	if (m_SelectedImage == -1)
+	if (m_SelectedImage == NO_CURRENT_TEXTURE)
 		return nullptr;
 
 	return &m_Images[m_SelectedImage];

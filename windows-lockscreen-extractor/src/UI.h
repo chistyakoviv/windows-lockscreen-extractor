@@ -18,6 +18,13 @@ public:
 
 	void OnEvent(Event event);
 	void OnUpdate();
+	void OnSave();
+
+	void Init();
+	void Begin();
+	void Dockspace();
+	void End();
+	void Shutdown();
 private:
 	std::vector<Panel*> m_Panels;
 	FilesPanel* m_FilesPanel;
