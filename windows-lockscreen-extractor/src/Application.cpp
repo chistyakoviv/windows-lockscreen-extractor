@@ -1,35 +1,14 @@
 #include "Application.h"
 
-#include "FileSystem.h"
-#include "User.h"
 #include "OpenGL/Renderer.h"
 #include "OpenGL/Shader.h"
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
-
 #include <iostream>
-
-#define BIND_FUNCTION(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...); }
 
 Application::Application()
 {
 	m_Window = new Window(1024, 768);
-	m_Window->SetCallback(BIND_FUNCTION(Application::OnEvent));
-
-	Panel::Init(m_Window->GetNativeWindow());
-	Panel::SetStaticCallback(BIND_FUNCTION(Application::OnEvent));
-
-	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
-
-	m_FilesPanel = new FilesPanel();
-	m_FilesPanel->SetFiles(files);
-	m_FilesPanel->SetCallback(BIND_FUNCTION(Application::OnEvent));
-
-	m_ViewportPanel = new ViewportPanel();
-
-	m_Panels.push_back(m_FilesPanel);
-	m_Panels.push_back(m_ViewportPanel);
+	m_UI = new UI(*this);
 	
 	Renderer::Init();
 
@@ -58,11 +37,7 @@ Application::Application()
 
 Application::~Application()
 {
-	for (auto panel : m_Panels)
-	{
-		delete panel;
-	}
-	Panel::Shutdown();
+	delete m_UI;
 	delete m_Window;
 }
 
@@ -70,46 +45,8 @@ void Application::Run()
 {
 	while (m_Running)
 	{
-		Panel::Begin();
-		Panel::Dockspace();
-
-		// ImGui panels
-		for (auto panel : m_Panels)
-		{
-			panel->render();
-		}
-
-		// Demo window for testing features
-		 //ImGui::ShowDemoWindow();
-
-		Panel::End();
-
+		m_UI->OnUpdate();
 		m_Window->OnUpdate();
-	}
-}
-
-void Application::OnEvent(Event event)
-{
-	switch (event.GetType())
-	{
-		case EventType::WindowClose:
-			Exit();
-			break;
-		case EventType::ChooseFile:
-			m_ViewportPanel->SetTextureID(m_FilesPanel->GetCurrentTextureID());
-			break;
-		case EventType::SaveFile:
-			std::string* filepath = (std::string*)event.GetData();
-			const Image* img = m_FilesPanel->GetCurrentImage();
-
-			int width, height, channels;
-			stbi_uc* data = nullptr;
-			{
-				data = stbi_load(User::GetLockScreenImageAbsolutePath(img->origName).c_str(), &width, &height, &channels, 0);
-			}
-			stbi_flip_vertically_on_write(1);
-			stbi_write_png(filepath->c_str(), width, height, channels, data, width * channels);
-			break;
 	}
 }
 
