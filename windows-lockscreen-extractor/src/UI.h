@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Base.h"
 #include "Window.h"
 #include "ImGui/Panel.h"
 #include "ImGui/FilesPanel.h"
 #include "ImGui/ViewportPanel.h"
 #include "OpenGL/Texture.h"
 #include "Events/Event.h"
+
+#define BIND_FUNCTION(x) [this](auto&&... args) -> decltype(auto) { return this->x(std::forward<decltype(args)>(args)...); }
 
 class Application;
 
