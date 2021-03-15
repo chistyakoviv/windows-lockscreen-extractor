@@ -1,8 +1,11 @@
 #include "FilesPanel.h"
 
-#include "User.h"
+#include "Helpers/User.h"
 
 #include <iostream>
+
+static const uint32_t TEXTURE_MIN_WIDTH = 1920;
+static const uint32_t TEXTURE_MIN_HEIGHT = 1080;
 
 static bool IsBigTexture(Texture* texture)
 {

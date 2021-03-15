@@ -8,9 +8,6 @@
 #include <string>
 #include <functional>
 
-static const uint32_t TEXTURE_MIN_WIDTH = 1920;
-static const uint32_t TEXTURE_MIN_HEIGHT = 1080;
-
 struct Image
 {
 	std::string origName;

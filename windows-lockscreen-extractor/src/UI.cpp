@@ -1,8 +1,8 @@
 #include "UI.h"
 
 #include "Application.h"
-#include "FileSystem.h"
-#include "User.h"
+#include "Helpers/FileSystem.h"
+#include "Helpers/User.h"
 #include "Helpers/FileDialog.h"
 #include "Events/Event.h"
 
