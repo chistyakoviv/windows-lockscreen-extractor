@@ -1,28 +1,31 @@
 #include "FileDialog.h"
 
+#include <iostream>
+
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
-std::optional<std::string> FileDialogs::SaveFile(GLFWwindow* window, const char* filter)
+std::optional<std::wstring> FileDialogs::SaveFile(GLFWwindow* window, const wchar_t* filter)
 {
-	OPENFILENAMEA ofn;
-	CHAR szFile[260] = { 0 };
-	CHAR currentDir[256] = { 0 };
+	OPENFILENAME ofn;
+	TCHAR szFile[260] = { 0 };
+	TCHAR currentDir[256] = { 0 };
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = glfwGetWin32Window(window);
 	ofn.lpstrFile = szFile;
 	ofn.nMaxFile = sizeof(szFile);
-	if (GetCurrentDirectoryA(256, currentDir))
+	if (GetCurrentDirectory(256, currentDir))
 		ofn.lpstrInitialDir = currentDir;
 	ofn.lpstrFilter = filter;
 	ofn.nFilterIndex = 1;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
 
 	// Sets the default extension by extracting it from the filter
-	ofn.lpstrDefExt = strchr(filter, '\0') + 1;
+	ofn.lpstrDefExt = wcschr(filter, '\0') + 1;
 
-	if (GetSaveFileNameA(&ofn) == TRUE)
+	if (GetSaveFileName(&ofn) == TRUE)
 		return ofn.lpstrFile;
+
 	return std::nullopt;
 }

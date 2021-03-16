@@ -7,5 +7,5 @@
 class FileDialogs
 {
 public:
-	static std::optional<std::string> SaveFile(GLFWwindow* window, const char* filter);
+	static std::optional<std::wstring> SaveFile(GLFWwindow* window, const wchar_t* filter);
 };

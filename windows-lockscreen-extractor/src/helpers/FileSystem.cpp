@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <strsafe.h>
 
+#include <iostream>
+
+#include <Stringapiset.h>
+
 static std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> s_Converter;
 
 std::vector<std::string> FileSystem::ReadDir(const std::string& dirpath)
@@ -65,10 +69,8 @@ std::vector<std::string> FileSystem::ReadDir(const std::string& dirpath)
 	return files;
 }
 
-bool FileSystem::CopyFileX(std::string& source, std::string& dest)
+bool FileSystem::CopyFileX(std::string& source, std::wstring& dest)
 {
 	std::wstring convertedSource = s_Converter.from_bytes(source);
-	std::wstring convertedDest = s_Converter.from_bytes(dest);
-
-	return CopyFile(convertedSource.c_str(), convertedDest.c_str(), TRUE);
+	return CopyFile(convertedSource.c_str(), dest.c_str(), TRUE);
 }
