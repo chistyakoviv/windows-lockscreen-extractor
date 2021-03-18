@@ -71,7 +71,7 @@ void UI::OnSave()
 {
 	std::optional<std::wstring> filepath = FileDialogs::SaveFile(m_App.GetWindow()->GetNativeWindow(), L".png (*.png)\0*.png\0");
 
-	if (m_FilesPanel->GetCurrentTextureID() == FilesPanel::NO_CURRENT_TEXTURE_ID)
+	if (m_FilesPanel->GetCurrentTextureID() == FilesPanel::NO_CURRENT_TEXTURE_ID || !filepath)
 		return;
 
 	const Image* img = m_FilesPanel->GetCurrentImage();
