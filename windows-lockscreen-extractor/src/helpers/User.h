@@ -5,7 +5,7 @@
 class User
 {
 public:
-	static std::string GetProfileDir();
-	static std::string GetLockScreenImagesDir();
-	static std::string GetLockScreenImageAbsolutePath(const std::string& imageName);
+	static std::wstring GetProfileDir();
+	static std::wstring GetLockScreenImagesDir();
+	static std::wstring GetLockScreenImageAbsolutePath(const std::wstring& imageName);
 };

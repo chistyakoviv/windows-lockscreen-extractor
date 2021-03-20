@@ -10,7 +10,7 @@
 
 struct Image
 {
-	std::string origName;
+	std::wstring origName;
 	std::string name;
 	Texture* texture = nullptr;
 };
@@ -23,14 +23,14 @@ public:
 
 	uint32_t GetCurrentTextureID() const;
 	const Image* GetCurrentImage() const;
-	void SetFiles(const std::vector<std::string>& items);
+	void SetFiles(const std::vector<std::wstring>& items);
 
 	virtual void render() override;
 
 	static uint32_t NO_CURRENT_TEXTURE;
 	static int32_t NO_CURRENT_TEXTURE_ID;
 private:
-	std::vector<Image> FilterImages(const std::vector<std::string>& items);
+	std::vector<Image> FilterImages(const std::vector<std::wstring>& items);
 private:
 	std::vector<Image> m_Images;
 	int32_t m_SelectedImage;

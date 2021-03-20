@@ -15,7 +15,7 @@ UI::UI(Application& app)
 
 	m_App.GetWindow()->SetCallback(BIND_FUNCTION(UI::OnEvent));
 
-	std::vector<std::string> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
+	std::vector<std::wstring> files = FileSystem::ReadDir(User::GetLockScreenImagesDir());
 
 	m_FilesPanel = new FilesPanel();
 	m_FilesPanel->SetFiles(files);

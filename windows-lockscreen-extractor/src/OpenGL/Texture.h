@@ -8,7 +8,7 @@ class Texture
 {
 public:
 	Texture();
-	Texture(const std::string& path);
+	Texture(const std::wstring& path);
 	~Texture();
 
 	void Bind(uint32_t slot) const;

@@ -1,18 +1,24 @@
 #include "User.h"
 
-static const char* LOCK_SCREEN_IMAGES_PATH = "\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets";
+#include <clocale>
+#include <locale>
+#include <codecvt>
 
-std::string User::GetProfileDir()
+static const wchar_t* LOCK_SCREEN_IMAGES_PATH = L"\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets";
+
+static std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> s_Converter;
+
+std::wstring User::GetProfileDir()
 {
-	return getenv("USERPROFILE");
+	return s_Converter.from_bytes(getenv("USERPROFILE"));
 }
 
-std::string User::GetLockScreenImagesDir()
+std::wstring User::GetLockScreenImagesDir()
 {
 	return User::GetProfileDir() + LOCK_SCREEN_IMAGES_PATH;
 }
 
-std::string User::GetLockScreenImageAbsolutePath(const std::string& imageName)
+std::wstring User::GetLockScreenImageAbsolutePath(const std::wstring& imageName)
 {
-	return User::GetLockScreenImagesDir() + "\\" + imageName;
+	return User::GetLockScreenImagesDir() + L"\\" + imageName;
 }

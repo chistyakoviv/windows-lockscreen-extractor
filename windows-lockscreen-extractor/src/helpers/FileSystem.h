@@ -6,6 +6,6 @@
 class FileSystem
 {
 public:
-	static std::vector<std::string> ReadDir(const std::string& dirpath);
-	static bool CopyFileX(std::string& source, std::wstring& dest);
+	static std::vector<std::wstring> ReadDir(const std::wstring& dirpath);
+	static bool CopyFileX(std::wstring& source, std::wstring& dest);
 };

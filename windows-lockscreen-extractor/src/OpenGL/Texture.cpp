@@ -1,19 +1,25 @@
 #include "Texture.h"
 
+#include <clocale>
+#include <locale>
+#include <codecvt>
+
 #include <iostream>
+
+static std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> s_Converter;
 
 Texture::Texture()
 	: m_IsValid(false), m_Width(0), m_Height(0)
 {}
 
-Texture::Texture(const std::string& path)
+Texture::Texture(const std::wstring& path)
 	: m_IsValid(false), m_Width(0), m_Height(0)
 {
 	int width, height, channels;
 	stbi_set_flip_vertically_on_load(1);
 	stbi_uc* data = nullptr;
 	{
-		data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		data = stbi_load(s_Converter.to_bytes(path).c_str(), &width, &height, &channels, 0);
 	}
 
 	if (!data)

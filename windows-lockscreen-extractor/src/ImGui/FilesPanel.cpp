@@ -43,12 +43,12 @@ const Image* FilesPanel::GetCurrentImage() const
 	return &m_Images[m_SelectedImage];
 }
 
-void FilesPanel::SetFiles(const std::vector<std::string>& items)
+void FilesPanel::SetFiles(const std::vector<std::wstring>& items)
 {
 	m_Images = FilterImages(items);
 }
 
-std::vector<Image> FilesPanel::FilterImages(const std::vector<std::string>& items)
+std::vector<Image> FilesPanel::FilterImages(const std::vector<std::wstring>& items)
 {
 	std::vector<Image> images;
 
