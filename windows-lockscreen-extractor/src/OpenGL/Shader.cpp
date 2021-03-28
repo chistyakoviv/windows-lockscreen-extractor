@@ -108,3 +108,9 @@ void Shader::Unbind() const
 {
 	glUseProgram(0);
 }
+
+void Shader::SetInt(const std::string& name, int value)
+{
+	GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniform1i(location, value);
+}

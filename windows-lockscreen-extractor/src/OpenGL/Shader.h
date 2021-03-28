@@ -13,6 +13,8 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+
+	void SetInt(const std::string& name, int value);
 private:
 	void Compile(const std::unordered_map<GLenum, std::string>& src);
 private:

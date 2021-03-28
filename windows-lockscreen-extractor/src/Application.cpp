@@ -1,7 +1,6 @@
 #include "Application.h"
 
 #include "OpenGL/Renderer.h"
-#include "OpenGL/Shader.h"
 
 #include <iostream>
 
@@ -11,28 +10,6 @@ Application::Application()
 	m_UI = new UI(*this);
 	
 	Renderer::Init();
-
-	std::string vertex = R"(
-		#version 450 core
-
-		void main()
-		{
-			
-		}
-	)";
-
-	std::string fragment = R"(
-		#version 450 core
-
-		out vec4 color;
-
-		void main()
-		{
-			color = vec4(0.3, 0.5, 0.4, 1.0);
-		}
-	)";
-
-	Shader shader(vertex, fragment);
 }
 
 Application::~Application()

@@ -25,10 +25,68 @@ UI::UI(Application& app)
 
 	m_Panels.push_back(m_FilesPanel);
 	m_Panels.push_back(m_ViewportPanel);
+
+	auto [width, height] = m_ViewportPanel->GetViewportSize();
+	m_Framebuffer = new Framebuffer(1024, 768);
+
+	float quadVertices[] = {
+		// positions   // texCoords
+		-0.5f,   0.5f,  0.0f, 1.0f,
+		-0.5f,  -0.5f,  0.0f, 0.0f,
+		 0.5f,  -0.5f,  1.0f, 0.0f,
+
+		-0.5f,   0.5f,  0.0f, 1.0f,
+		 0.5f,  -0.5f,  1.0f, 0.0f,
+		 0.5f,   0.5f,  1.0f, 1.0f
+	};
+
+	glGenVertexArrays(1, &m_QuadVAO);
+	glGenBuffers(1, &m_QuadVBO);
+	glBindVertexArray(m_QuadVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+	std::string vertex = R"(
+		#version 450 core
+		layout(location = 0) in vec2 a_Position;
+		layout(location = 1) in vec2 a_TexCoord;
+
+		out vec2 v_TexCoord;
+
+		void main()
+		{
+			gl_Position = vec4(a_Position.xy, 0.0, 1.0);
+			v_TexCoord = a_TexCoord;
+		}
+	)";
+
+	std::string fragment = R"(
+		#version 450 core
+
+		layout(location = 0) out vec4 color;
+
+		in vec2 v_TexCoord;
+
+		uniform sampler2D u_Texture;
+
+		void main()
+		{
+			// color = texture(u_Texture, v_TexCoord);
+			color = vec4(0.3, 0.5, 0.4, 1.0);
+		}
+	)";
+
+	m_Shader = new Shader(vertex, fragment);
 }
 
 UI::~UI()
 {
+	delete m_Framebuffer;
+	delete m_Shader;
 	for (auto panel : m_Panels)
 	{
 		delete panel;
@@ -54,6 +112,11 @@ void UI::OnUpdate()
 {
 	Begin();
 	Dockspace();
+
+	/*m_Shader->Bind();
+	m_Shader->SetInt("u_Texture", 0);
+	glBindVertexArray(m_QuadVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 6);*/
 
 	// ImGui panels
 	for (auto panel : m_Panels)

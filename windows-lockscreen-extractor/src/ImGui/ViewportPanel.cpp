@@ -32,6 +32,13 @@ void ViewportPanel::render()
 	ImGui::PopStyleVar();
 }
 
+std::pair<int32_t, int32_t> ViewportPanel::GetViewportSize() const
+{
+	int32_t width = m_ViewportSize.x;
+	int32_t height = m_ViewportSize.y;
+	return { width, height };
+}
+
 void ViewportPanel::SetTextureID(uint32_t textureID)
 {
 	m_TextureID = textureID;

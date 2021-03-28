@@ -10,6 +10,8 @@ public:
 
 	virtual void render() override;
 
+	std::pair<int32_t, int32_t> GetViewportSize() const;
+
 	void SetTextureID(uint32_t textureID);
 private:
 
