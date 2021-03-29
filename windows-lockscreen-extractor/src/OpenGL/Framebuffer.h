@@ -16,6 +16,8 @@ public:
 	void Unbind();
 
 	void Resize(int32_t width, uint32_t height);
+
+	uint32_t GetColorAttachmentID(size_t index = 0) const { return m_ColorAttachments[index]; }
 private:
 	std::vector<uint32_t> m_ColorAttachments;
 	uint32_t m_DepthAttachment;

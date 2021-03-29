@@ -29,15 +29,18 @@ UI::UI(Application& app)
 	auto [width, height] = m_ViewportPanel->GetViewportSize();
 	m_Framebuffer = new Framebuffer(1024, 768);
 
+	// Pass a framebuffer texture to the vieport panel
+	m_ViewportPanel->SetTextureID(m_Framebuffer->GetColorAttachmentID());
+
 	float quadVertices[] = {
 		// positions   // texCoords
-		-0.5f,   0.5f,  0.0f, 1.0f,
-		-0.5f,  -0.5f,  0.0f, 0.0f,
-		 0.5f,  -0.5f,  1.0f, 0.0f,
+		-0.9f,   0.9f,  0.0f, 1.0f,
+		-0.9f,  -0.9f,  0.0f, 0.0f,
+		 0.9f,  -0.9f,  1.0f, 0.0f,
 
-		-0.5f,   0.5f,  0.0f, 1.0f,
-		 0.5f,  -0.5f,  1.0f, 0.0f,
-		 0.5f,   0.5f,  1.0f, 1.0f
+		-0.9f,   0.9f,  0.0f, 1.0f,
+		 0.9f,  -0.9f,  1.0f, 0.0f,
+		 0.9f,   0.9f,  1.0f, 1.0f
 	};
 
 	glGenVertexArrays(1, &m_QuadVAO);
@@ -75,12 +78,13 @@ UI::UI(Application& app)
 
 		void main()
 		{
-			// color = texture(u_Texture, v_TexCoord);
-			color = vec4(0.3, 0.5, 0.4, 1.0);
+			color = texture(u_Texture, v_TexCoord);
 		}
 	)";
 
 	m_Shader = new Shader(vertex, fragment);
+	m_Shader->Bind();
+	m_Shader->SetInt("u_Texture", 0);
 }
 
 UI::~UI()
@@ -103,7 +107,7 @@ void UI::OnEvent(Event event)
 		m_App.Exit();
 		break;
 	case EventType::ChooseFile:
-		m_ViewportPanel->SetTextureID(m_FilesPanel->GetCurrentTextureID());
+		//m_ViewportPanel->SetTextureID(m_FilesPanel->GetCurrentTextureID());
 		break;
 	}
 }
@@ -113,10 +117,13 @@ void UI::OnUpdate()
 	Begin();
 	Dockspace();
 
-	/*m_Shader->Bind();
-	m_Shader->SetInt("u_Texture", 0);
+	m_Framebuffer->Bind();
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glBindVertexArray(m_QuadVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);*/
+	glBindTexture(GL_TEXTURE_2D, m_FilesPanel->GetCurrentTextureID());
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	m_Framebuffer->Unbind();
 
 	// ImGui panels
 	for (auto panel : m_Panels)
